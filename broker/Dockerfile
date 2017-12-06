@@ -48,7 +48,7 @@ ADD apache-rocketmq.tar.gz .
                                                                                                                                                               
 RUN chmod +x bin/mqbroker
 
-CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT="${JAVA_OPT} -Duser.home=/opt" && sh mqbroker
+CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT="${JAVA_OPT} -Duser.home=/opt" && sh mqbroker -n ${NAMESRV_ADDR} -c ../conf/broker.conf
 
 EXPOSE 10909 10911
 VOLUME /opt/logs \
