@@ -20,6 +20,8 @@ git clone git@github.com:apache/rocketmq.git
 cd rocketmq
 # rocketmq-all-4.1.0-incubating为tag名
 git checkout tags/rocketmq-all-4.1.0-incubating
+# 修改rocketmq/distribution/conf/broker.conf
+添加 listenPort = 10911配置【重要】
 # 如果需要可以事先修改jvm参数配置,因为默认需要8g的堆内存
 # 如果使用java8 可以去掉这两个参数-XX:PermSize=128m -XX:MaxPermSize=320m；用MaxMetaspaceSize替代
 # 我这里改掉了runbroker.sh的jvm配置，修改如下，如果服务器资源足够，建议还是默认配置
