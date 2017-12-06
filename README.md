@@ -35,6 +35,13 @@ mvn -Prelease-all -DskipTests clean package -U 或mvn -Prelease-all -DskipTests 
 # 分别执行namesrv、broker目录下的docker_run.sh即可运行容器
 ```
 
+## Devlop
+
+# 如果你想自己本地开发的机器连broker
+那么需要修改broker/docker_run.sh里的参数
+-e JAVA_OPT_EXT = '-DbrokerIP1=192.168.59.203 -DbrokerIP2=192.168.59.203'
+将brokerIP1,brokerIP2改为跑broker那台宿主机的IP地址(假设该宿主机与你本地开发的机器属于同一局域网)
+
 ## Other
 
 这里为了方便已经打包好了一个apache-rocketmq.tar.gz，可以直接用，如果你需要自定义JVM参数，可以自行编译rocketmq源码，或者使用解压缩工具解压apache-rocketmq.tar.gz，修改bin/runbroker.sh、bin/runserver.sh
