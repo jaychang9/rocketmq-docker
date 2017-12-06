@@ -45,6 +45,9 @@ RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirr
 #          && rm rocketmq.zip            
 
 ADD apache-rocketmq.tar.gz .           
+
+# If you want your develop computer can link broker that runs in docker,please remove the `#` and modify the ip address as your docker host machine's ip address
+RUN echo -e "\nbrokerIP1 = 192.168.59.203\nbrokerIP2 = 192.168.59.203" >> ./conf/broker.conf
                                                                                                                                                               
 RUN chmod +x bin/mqbroker
 
