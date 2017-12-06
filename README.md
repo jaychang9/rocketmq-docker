@@ -37,7 +37,8 @@ mvn -Prelease-all -DskipTests clean package -U 或mvn -Prelease-all -DskipTests 
 
 ## Devlop
 
-# 如果你想自己本地开发的机器连broker
+如果你想自己本地开发的机器连broker,该怎么做呢？
+
 那么需要修改broker/docker_run.sh里的参数
 -e JAVA_OPT_EXT = '-DbrokerIP1=192.168.59.203 -DbrokerIP2=192.168.59.203'
 将brokerIP1,brokerIP2改为跑broker那台宿主机的IP地址(假设该宿主机与你本地开发的机器属于同一局域网)
