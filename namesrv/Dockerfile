@@ -26,7 +26,7 @@ ENV ROCKETMQ_VERSION ${ROCKETMQ_VERSION:-4.1.0-incubating}
 # Rocketmq home
 ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
 
-WORKDIR  ${ROCKETMQ_HOME}
+WORKDIR ${ROCKETMQ_HOME}
 
 RUN mkdir -p \
 	/opt/logs \
@@ -34,22 +34,16 @@ RUN mkdir -p \
 
 # Configure ustc alipine software source and timezone
 RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && \
-    apk update &&\
+    apk update && \
     apk --no-cache add tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" >  /etc/timezone
 
 ADD apache-rocketmq.tar.gz .
 
-
-#RUN apk add unzip && apk add curl \
-#          && unzip apache-rocketmq.zip \
-#          && rm apache-rocketmq.zip
-
-
 RUN chmod +x bin/mqnamesrv
 
-CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt/rocketmq" && sh mqnamesrv
+CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt" && sh mqnamesrv
 
 
 EXPOSE 9876
