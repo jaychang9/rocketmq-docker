@@ -1,3 +1,3 @@
 #!/bin/sh 
 
-docker build -t apache/incubator-rocketmq-broker:4.1.0-incubating .
+docker build -t apache/rocketmq-broker:4.1.0-incubating .

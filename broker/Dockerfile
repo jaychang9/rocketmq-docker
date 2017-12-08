@@ -27,22 +27,15 @@ ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
 WORKDIR  ${ROCKETMQ_HOME}
                   
 RUN mkdir -p \                       
-                /opt/logs \
-                /opt/store
+                /opt/rocketmq/logs \
+                /opt/rocketmq/store
                                                     
 # Configure ustc alipine software source and timezone
 RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && \
     apk update &&\
     apk --no-cache add tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" >  /etc/timezone
-
-#RUN apk add unzip && apk add curl && \              
-#    curl https://dist.apache.org/repos/dist/release/incubator/rocketmq/${ROCKETMQ_VERSION}/rocketmq-all-${ROCKETMQ_VERSION}-bin-release.zip -o rocketmq.zip \
-#          && unzip rocketmq.zip \
-#          && mv apache-rocketmq-all/* . \
-#          && rmdir apache-rocketmq-all  \                  
-#          && rm rocketmq.zip            
+    echo "Asia/Shanghai" >  /etc/timezone            
 
 ADD apache-rocketmq.tar.gz .           
 
@@ -51,9 +44,9 @@ RUN echo -e "\nbrokerIP1 = 192.168.59.203\nbrokerIP2 = 192.168.59.203" >> ./conf
                                                                                                                                                               
 RUN chmod +x bin/mqbroker
 
-CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT="${JAVA_OPT} -Duser.home=/opt" && sh mqbroker -n ${NAMESRV_ADDR} -c ../conf/broker.conf
+CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT="${JAVA_OPT} -Duser.home=/opt/rocketmq" && sh mqbroker -n ${NAMESRV_ADDR} -c ../conf/broker.conf
 
 EXPOSE 10909 10911
-VOLUME /opt/logs \
-       /opt/store
+VOLUME /opt/rocketmq/logs \
+       /opt/rocketmq/store
 

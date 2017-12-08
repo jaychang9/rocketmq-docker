@@ -1,1 +1,1 @@
-docker build -t apache/incubator-rocketmq-namesrv:4.0.0-incubating .
+docker build -t apache/rocketmq-namesrv:4.1.0-incubating .

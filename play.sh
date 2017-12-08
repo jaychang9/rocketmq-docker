@@ -1,7 +1,7 @@
 #!/bin/bash
-sudo docker build -t apache/incubator-rocketmq-namesrv:4.0.0-incubating ./namesrv
+sudo docker build -t apache/rocketmq-namesrv:4.0.0-incubating ./namesrv
 
-sudo docker build -t apache/incubator-rocketmq-broker:4.0.0-incubating ./broker
+sudo docker build -t apache/rocketmq-broker:4.0.0-incubating ./broker
 
 sudo docker run -d -p 9876:9876 --name rmqnamesrv  apache/incubator-rocketmq-namesrv:4.0.0-incubating
 

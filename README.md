@@ -48,6 +48,18 @@ RUN echo -e "\nbrokerIP1 = 192.168.59.203\nbrokerIP2 = 192.168.59.203" >> ./conf
 并将brokerIP1 与brokerIP2改为docker宿主机的IP即可（如果docker宿主机有多张网卡，那么brokerIP1,brokerIP2可以配置成不一样的IP地址）
 
 
+
+## 推荐镜像构建方法
+
+原因：jenkins上有maven，可以很方便地编译apache rocketmq源码，生成压缩包
+
+* 建议通过jenkins获取github源码构建apache rocketmq
+
+* 通过shell脚本将runbroker.sh中的JVM参数修改掉，或者直接将runbroker.sh中的JVM配置给删除。个人建议不推荐将
+
+  JVM的配置参数直接写死在镜像中，尽量可以使得docker run 跑容器的时候，设置JVM参数，这样更灵活一些。
+
+
 ## Other
 
 这里为了方便已经打包好了一个apache-rocketmq.tar.gz，可以直接用，如果你需要自定义JVM参数，可以自行编译rocketmq源码，或者使用解压缩工具解压apache-rocketmq.tar.gz，修改bin/runbroker.sh、bin/runserver.sh
