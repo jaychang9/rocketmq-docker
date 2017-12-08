@@ -19,7 +19,9 @@
 FROM java:openjdk-8u111-alpine
 
 # Rocketmq version
-ENV ROCKETMQ_VERSION 4.1.0-incubating
+# ENV ROCKETMQ_VERSION if build-arg not set the default value is 4.1.0-incubating
+ARG ROCKETMQ_VERSION
+ENV ROCKETMQ_VERSION ${ROCKETMQ_VERSION:-4.1.0-incubating}
 
 # Rocketmq home
 ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
@@ -27,8 +29,8 @@ ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
 WORKDIR  ${ROCKETMQ_HOME}
 
 RUN mkdir -p \
-		/opt/rocketmq/logs \
-		/opt/rocketmq/store
+	/opt/logs \
+	/opt/store
 
 # Configure ustc alipine software source and timezone
 RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && \
@@ -51,6 +53,6 @@ CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt/rocketmq" && s
 
 
 EXPOSE 9876
-VOLUME /opt/rocketmq/logs \
-       /opt/rocketmq/store
+VOLUME /opt/logs \
+       /opt/store
 

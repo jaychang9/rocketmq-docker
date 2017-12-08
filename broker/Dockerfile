@@ -18,17 +18,22 @@
 # Start from a Java image.                                           
 FROM java:openjdk-8u111-alpine                                     
                                                                           
-# Rocketmq version                                                   
-ENV ROCKETMQ_VERSION 4.1.0-incubating
+# Rocketmq version if not defined when build then using default value                                                  
+ARG ROCKETMQ_VERSION
+ENV ROCKETMQ_VERSION ${ROCKETMQ_VERSION:-4.1.0-incubating}
  
 # Rocketmq home
-ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
+ENV ROCKETMQ_HOME  /opt/rocketmq-${VERSION}
+
+# Rocketmq broker ip
+ARG BROKER_IP1
+ARG BROKER_IP2
                               
 WORKDIR  ${ROCKETMQ_HOME}
                   
 RUN mkdir -p \                       
-                /opt/rocketmq/logs \
-                /opt/rocketmq/store
+        /opt/logs \
+        /opt/store
                                                     
 # Configure ustc alipine software source and timezone
 RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories && \
@@ -40,13 +45,14 @@ RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirr
 ADD apache-rocketmq.tar.gz .           
 
 # If you want your develop computer can link broker that runs in docker,please remove the `#` and modify the ip address as your docker host machine's ip address
-RUN echo -e "\nbrokerIP1 = 192.168.59.203\nbrokerIP2 = 192.168.59.203" >> ./conf/broker.conf
+# RUN echo -e "\nbrokerIP1 = 192.168.59.203\nbrokerIP2 = 192.168.59.203" >> ./conf/broker.conf
+RUN echo -e "\nbrokerIP1 = ${BROKER_IP1}\nbrokerIP2 = ${BROKER_IP2}" >> ./conf/broker.conf
                                                                                                                                                               
 RUN chmod +x bin/mqbroker
 
 CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT="${JAVA_OPT} -Duser.home=/opt/rocketmq" && sh mqbroker -n ${NAMESRV_ADDR} -c ../conf/broker.conf
 
 EXPOSE 10909 10911
-VOLUME /opt/rocketmq/logs \
-       /opt/rocketmq/store
+VOLUME /opt/logs \
+       /opt/store
 
